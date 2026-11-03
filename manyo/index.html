@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마녀공장 웹사이트</title>
+    <link rel="stylesheet" href=
+    "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        /*모든 태그 여백 초기화, 기본으로 넣기*/
+        * 
+        {margin: 0; padding: 0; 
+         box-sizing: border-box; /*박스크기 원래 지정유지*/}
+
+        /*배너 이미지*/
+         .hero
+        {width: 100%; height: 1080px;
+        background: url(img/02.jpg) no-repeat center/cover;}
+
+        /*로고 설정*/
+        .logo img
+        {width: 180px; height: auto; object-fit: cover; padding-top: 7px;}
+
+        .logo
+        {width: 90%;
+        max-width: 1740px; /*최대값*/
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0px 0px; /*좌우 여백*/
+        padding-top: 60px;
+        padding-bottom: 20px;}
+
+        /*네비 설정*/
+        nav 
+        { display: flex; gap: 35px; /*메뉴를 가로로 배치하고 간격을 줌*/
+        white-space: nowrap; /*메뉴를 한 줄로 표시하고 줄바꿈 방지*/} 
+
+        nav a 
+        {font-size: 24px; font-weight: 600; color: rgb(60, 60, 60); font-weight: 450;}
+        
+        i
+        {font-size: 25px; padding-top: 8px;}
+
+        a /*네비 텍스트 밑에 줄 없앰*/
+        {text-decoration: none; color: rgb(0, 0, 0);}
+        
+        /*헤더 전체 설정*/
+        header
+        {width: 90%;
+        max-width: 1740px; /*최대값*/
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: rgba(255, 255, 255, 0/*투명도*/);/*투명도 조절해서 반투명 배경 가능*/
+        padding: 0px 0px; /*좌우 여백*/}
+
+        /* 전체 검색창 위치 설정 */
+        .search-container /* 전체 검색창 위치 설정 */ 
+        {display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 0px;}
+
+        .search-form /* 폼 디자인: 사방 테두리를 없애고 아래선만 남김 */
+        {position: relative;
+        display: flex;
+        align-items: center;
+        width: 200px;
+        border-bottom: 2px solid rgb(60, 60, 60); /* 아래선 두께와 색상 */
+        padding-bottom: 5px;}
+
+        .search-input /* 입력 필드 스타일: 배경과 기본 테두리 제거 */
+        {width: 100%;
+        border: none;
+        outline: none;
+        font-size: 16px;
+        padding-right: 35px; /* 아이콘과 글자가 겹치지 않도록 여백 지정 */
+        background: transparent;}
+
+        .search-button /* 검색 버튼 스타일: 배경을 없애고 우측 정렬 */
+        {position: absolute;
+        right: 0;
+        bottom: 5px;
+        background: none;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        color: rgb(60, 60, 60); /* 아이콘 색상 */
+        font-size: 18px;
+        padding: 0;}
+        
+        /* 베스트 설정 */
+        .best
+        {height: 1080px; width: 90%; max-width: 1740px; margin: 0 auto; padding: 100px 0;} 
+
+        h2
+        {font-size: 24px; color: rgb(255, 149, 0); padding-top: 0;}
+
+        h1
+        {font-size: 45px; color: rgb(60, 60, 60); 
+        padding-bottom: 40px; letter-spacing: -2px;}
+
+        .list
+        {display: grid; grid-template-columns: repeat(4, 1fr); /*카드 4칸*/
+        gap: 50px 20px; /*상하 좌우 간격*/}
+
+        .card 
+        {width: 100%; background: #fff;}
+
+        /* 상품 이미지 자리: 지금은 회색 박스, 이미지는 img 태그를 넣으면 채워짐 */
+        .thumb
+        {position: relative; width: 100%; height: 520px;
+        background: #f0f0f0;}
+
+        .thumb img
+        {width: 100%; height: 100%; object-fit: contain; display: block;}
+
+        /* BEST 1, 2, 3, 4 주황 뱃지 */
+        .best-badge
+        {position: absolute; top: 22px; left: 22px;
+        background: rgb(255, 149, 0); color: #fff;
+        font-size: 15px; font-weight: 600;
+        padding: 5px 10px; border-radius: 4px;}
+
+        /* 상품명 + 한 줄 설명 */
+        .info 
+        {padding: 18px 0 22px;}
+
+        .name
+        {font-size: 20px; font-weight: 600; color: rgb(40, 40, 40);}
+
+        .desc
+        {margin-top: 6px; font-size: 16px; color: #888;
+        letter-spacing: -0.3px;}
+
+        /* 가격 + 리뷰 */
+        .price-area 
+        {border-top: 1px solid #e5e5e5;  /* 가로선 */
+        padding-top: 22px;
+        display: flex; flex-wrap: wrap; align-items: center; gap: 12px;}
+
+        .discount
+        {background: rgb(255, 149, 0); color: #fff;
+        font-size: 20px; font-weight: 700;
+        padding: 3px 8px; border-radius: 3px;}
+
+        .price
+        {font-size: 26px; font-weight: 700; color: rgb(60, 60, 60);}
+
+        .origin
+        {font-size: 16px; color: #aaa; text-decoration: line-through;}
+
+        .review
+        {width: 100%; font-size: 15px; color: #888;}
+
+        .review b /* 별 */
+        {color: rgb(255, 149, 0); font-weight: 400;}
+
+
+        /* ===== 이달의 상품 설정 (.pro-inner) =====
+           ※ 위에 있는 .card, h1, h2, i 와 겹치지 않도록
+             클래스 이름을 전부 pro- 로 시작하게 만들었어요 */
+        .pro-inner
+        {position: relative; width: 100%; height: 1080px;
+        overflow: hidden; color: #fff;}
+
+        /* 배경 이미지 (상품마다 바뀌고, 부드럽게 교체됨) */
+        .pro-bg
+        {position: absolute; inset: 0;}
+
+        .pro-bg-item
+        {position: absolute; inset: 0;
+        background-size: cover; background-position: center;
+        opacity: 0; transition: opacity 0.8s ease;}
+
+        .pro-bg-item.is-on
+        {opacity: 1;}
+
+        .pro-bg::after /* 배경 어둡게 덮는 막 */
+        {content: ""; position: absolute; inset: 0;
+        background: rgba(90, 88, 80, 0.62);}
+
+        /* 왼쪽 텍스트 */
+        .pro-text
+        {position: absolute; left: max(5%, calc((100% - 1740px) / 2)); /*다른 섹션과 같은 좌우 여백*/ top: 50%;
+        transform: translateY(-50%);
+        width: 40%; max-width: 640px; z-index: 2;}
+
+        .pro-text-inner
+        {transition: opacity 0.45s ease, transform 0.45s ease;}
+
+        .pro-text-inner.is-out /* 글이 바뀔 때 잠깐 사라졌다 나타남 */
+        {opacity: 0; transform: translateY(12px);}
+
+        .pro-label
+        {font-size: 22px; margin-bottom: 20px;}
+
+        .pro-title
+        {font-size: 64px; font-weight: 500;
+        line-height: 1.25; letter-spacing: -2px;}
+
+        .pro-desc
+        {margin-top: 64px; font-size: 16px; line-height: 1.9;
+        opacity: 0.92; word-break: keep-all;}
+
+        .pro-price
+        {margin-top: 40px; display: flex; align-items: center; gap: 14px;}
+
+        .pro-badge
+        {background: #ff9a0a; padding: 6px 12px;
+        font-weight: 700; font-size: 22px; border-radius: 3px;}
+
+        .pro-sale
+        {font-size: 28px; font-weight: 700;}
+
+        .pro-origin
+        {font-size: 20px; opacity: 0.6; text-decoration: line-through;}
+
+        /* 오른쪽 슬라이더 */
+        .pro-slider
+        {position: absolute; top: 50%; transform: translateY(-50%);
+        left: 52.8%; right: 0; /*왼쪽 값 = 1번 카드가 시작되는 위치*/
+        height: 640px;
+        overflow: hidden; /*오른쪽 카드가 화면 끝에서 잘려 보임*/
+        cursor: grab; touch-action: pan-y; z-index: 2;}
+
+        .pro-slider.is-drag
+        {cursor: grabbing;}
+
+        .pro-track
+        {display: flex; gap: 32px; height: 100%;
+        transition: transform 0.7s cubic-bezier(0.22, 0.8, 0.25, 1);
+        will-change: transform;}
+
+        .pro-track.no-ease /* 드래그하는 동안엔 바로바로 따라오게 */
+        {transition: none;}
+
+        .pro-card
+        {position: relative; flex: 0 0 auto;
+        height: 100%; aspect-ratio: 4 / 5;
+        background: #ddd; overflow: hidden; user-select: none;}
+
+        .pro-card img
+        {width: 100%; height: 100%; object-fit: cover; display: block;
+        pointer-events: none; -webkit-user-drag: none;}
+
+        .pro-card::after /* 선택 안 된 카드를 덮는 회색 막 */
+        {content: ""; position: absolute; inset: 0;
+        background: rgba(120, 120, 120, 0.68);
+        transition: opacity 0.7s ease; pointer-events: none;}
+
+        .pro-card.is-active::after /* 선택되면 막이 사라지면서 밝아짐 */
+        {opacity: 0;}
+
+        .pro-card-btns
+        {position: absolute; right: 16px; bottom: 16px;
+        display: flex; gap: 8px; z-index: 1;
+        opacity: 0; transition: opacity 0.5s ease;}
+
+        .pro-card.is-active .pro-card-btns
+        {opacity: 1;}
+
+        .pro-card-btns button
+        {width: 50px; height: 50px; border: 0; border-radius: 6px;
+        background: #fff; color: #ff9a0a; cursor: pointer;}
+
+        .pro-card-btns i /* 위쪽 공통 i 설정(padding-top)을 여기서만 덮어씀 */
+        {font-size: 20px; padding-top: 0;}
+
+        /* 하단 막대 표시 */
+        .pro-dots
+        {position: absolute; left: max(5%, calc((100% - 1740px) / 2)); /*다른 섹션과 같은 좌우 여백*/ bottom: 8%;
+        display: flex; gap: 10px; z-index: 2;}
+
+        .pro-dots button
+        {width: 34px; height: 3px; border: 0;
+        background: rgba(255, 255, 255, 0.35);
+        cursor: pointer; transition: background 0.3s;}
+
+        .pro-dots button.is-on
+        {background: #fff;}
+
+        /* ===== 추천 제품 설정 (.rec) =====
+           베스트 섹션과 같은 4칸 그리드(왼쪽 1칸 + 카드 3칸)를 써서
+           좌우 여백과 카드 크기가 똑같이 맞아요. 카드 모양은 베스트의 .card 스타일을 그대로 씀 */
+        .rec
+        {width: 100%; height: 1080px; padding-top: 178px;}
+
+        .rec-inner
+        {width: 90%; max-width: 1740px; margin: 0 auto;
+        display: grid; grid-template-columns: repeat(4, 1fr);
+        column-gap: 20px; align-items: start;}
+
+        .rec-head h1 /* 위쪽 공통 h1 설정을 이 섹션에서만 조정 */
+        {padding-bottom: 0; line-height: 1.25;}
+
+        /* 왼쪽 알약 버튼 3개 */
+        .rec-tabs
+        {margin-top: 125px; display: flex; flex-direction: column; gap: 13px;}
+
+        .rec-pill
+        {width: 74%; height: 54px; border-radius: 27px;
+        border: 1px solid #ddd; background: #fff; color: #bbb;
+        font-family: inherit; font-size: 24px; cursor: pointer;
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 0 22px 0 39px;
+        transition: background 0.3s, color 0.3s, border-color 0.3s;}
+
+        .rec-pill.is-on /* 선택된 버튼은 주황색 */
+        {background: rgb(255, 149, 0); border-color: rgb(255, 149, 0); color: #fff;}
+
+        .rec-pill svg
+        {width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.6;}
+
+        /* 오른쪽 카드 3개 */
+        .rec-cards
+        {grid-column: 2 / 5;
+        display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+        transition: opacity 0.3s ease;}
+
+        .rec-cards.is-out /* 버튼을 눌러 카드가 바뀔 때 잠깐 사라졌다 나타남 */
+        {opacity: 0;}
+
+        /* 아래 진행 막대 */
+        .rec-bar
+        {grid-column: 2 / 5; justify-self: center;
+        position: relative; width: 45%; height: 3px;
+        background: #ccc; margin-top: 80px;}
+
+        .rec-bar span
+        {position: absolute; left: 0; top: 0; height: 100%; width: 33.3333%;
+        background: rgb(255, 149, 0);
+        transition: transform 0.4s ease;}
+
+        /* ===== 영상 섹션 설정 (.vid) ===== */
+        .vid
+        {position: relative; width: 100%; height: 1080px;
+        overflow: hidden; background: #222; /*영상이 없을 때 보이는 색*/}
+
+        .vid video
+        {position: absolute; inset: 0; width: 100%; height: 100%;
+        object-fit: cover; /*영역을 꽉 채우고 넘치는 부분은 잘라냄*/
+        pointer-events: none; /*클릭해도 아무 반응 없게 (재생 UI 방지)*/}
+
+        /* ===== 푸터 설정 (.ft) ===== */
+        .ft
+        {width: 100%; background: #3d3d3d; color: #fff;
+        padding: 84px 0 95px;}
+
+        .ft-inner /* 다른 섹션과 같은 좌우 여백 */
+        {width: 90%; max-width: 1740px; margin: 0 auto;}
+
+        .ft-logo /* 로고 이미지가 없을 땐 대체 글자(alt)가 흰색으로 보임 */
+        {display: block; width: 209px; height: 50px;
+        font-size: 40px; font-weight: 700; line-height: 50px; color: #fff;}
+
+        .ft-logo img
+        {width: 100%; height: 100%; object-fit: contain; display: block;}
+
+        .ft-info
+        {margin-top: 78px; font-size: 16px; line-height: 22px;}
+
+        .ft-info p
+        {min-height: 22px; /*빈 줄도 한 줄 높이 유지*/}
+
+        .ft-info span + span, .ft-info a
+        {margin-left: 26px;}
+
+        .ft-info a, .ft-nav a /* 위쪽 공통 a 색(검정)을 푸터에서만 흰색으로 */
+        {color: #fff;}
+
+        .ft-info p > a:first-child
+        {margin-left: 0;}
+
+        .ft-sns
+        {margin-top: 40px; display: flex; gap: 22px; align-items: center;}
+
+        .ft-sns i /* 위쪽 공통 i 설정을 푸터에서만 덮어씀 */
+        {font-size: 20px; padding-top: 0; color: #fff;}
+
+        .ft-bottom
+        {margin-top: 14px; display: flex; justify-content: space-between; align-items: center;}
+
+        .ft-copy
+        {font-size: 16px; color: #888;}
+
+        .ft-nav
+        {display: flex; gap: 43px; font-size: 16px;}
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="logo">
+            <a href="index.html"><img src="img/01_logo.png" alt="logo"></a>
+        </div>
+        <header>
+            <nav>
+                <a href="index.html"><i class="fa-solid fa-bars"></i></a>
+                <a href="index.html">Brand</a>
+                <a href="index.html">Prduct</a>
+                <a href="index.html">Bast</a>
+                <a href="index.html">Event</a>
+            </nav>
+            <div class="search-container">
+                <form action="/search" method="GET" class="search-form">
+                <input type="search" class="search-input">
+                <button type="submit" class="search-button">
+                <i class="fas fa-search"></i>
+                </button>
+                </form>
+            </div>
+        </header>
+    </section>
+        
+    <section class="best">
+        <h2><span style="font-weight: 450;">Best Sellers</span></h2>
+        <h1><span style="font-weight: 590;">지금 가장 인기 있는 제품</span></h1>
+        <div class="list">
+            <div class="card">
+                <div class="thumb">
+                    <span class="best-badge">BEST 1</span>
+                    <!-- 이미지 넣는 자리: <img src="img/03_1.png" alt="퓨어 소이빈 클렌징 오일"> -->
+                </div>
+
+                <div class="info">
+                    <h3 class="name">퓨어 소이빈 클렌징 오일 200ml</h3>
+                    <p class="desc">No.1 모공 속 블렉헤드 피지 딥 클렌징 오일</p>
+                </div>
+
+                <div class="price-area">
+                    <span class="discount">20%</span>
+                    <span class="price">20,000원</span>
+                    <span class="origin">25,000원</span>
+                    <p class="review"><b>★</b> 4.9 | 리뷰 500건</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="thumb">
+                    <span class="best-badge">BEST 2</span>
+                    <!-- 이미지 넣는 자리: <img src="img/03_2.png" alt="퓨어 소이빈 클렌징 폼"> -->
+                </div>
+
+                <div class="info">
+                    <h3 class="name">퓨어 소이빈 클렌징 폼 160ml</h3>
+                    <p class="desc">숨은 노폐물까지 세정하는 약알칼리성 클렌징 폼</p>
+                </div>
+
+                <div class="price-area">
+                    <span class="discount">20%</span>
+                    <span class="price">11,500원</span>
+                    <span class="origin">14,400원</span>
+                    <p class="review"><b>★</b> 4.9 | 리뷰 500건</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="thumb">
+                    <span class="best-badge">BEST 3</span>
+                    <!-- 이미지 넣는 자리: <img src="img/03_3.png" alt="판테토인 크림"> -->
+                </div>
+
+                <div class="info">
+                    <h3 class="name">판테토인 크림 80ml</h3>
+                    <p class="desc">200시간 보습 생존, 판테토인™ 함유 진정 보습 크림</p>
+                </div>
+
+                <div class="price-area">
+                    <span class="discount">20%</span>
+                    <span class="price">33,600원</span>
+                    <span class="origin">42,000원</span>
+                    <p class="review"><b>★</b> 4.9 | 리뷰 500건</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="thumb">
+                    <span class="best-badge">BEST 4</span>
+                    <!-- 이미지 넣는 자리: <img src="img/03_4.png" alt="판테토인 에센스 토너"> -->
+                </div>
+
+                <div class="info">
+                    <h3 class="name">판테토인 에센스 토너 200ml</h3>
+                    <p class="desc">토너 하나로 깊고 빠른 속보습 충전, 판테토인™ 함유 진정보습 에센스 토너</p>
+                </div>
+
+                <div class="price-area">
+                    <span class="discount">20%</span>
+                    <span class="price">25,600원</span>
+                    <span class="origin">32,000원</span>
+                    <p class="review"><b>★</b> 4.9 | 리뷰 500건</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 이달의 상품: 카드/배경/점은 아래 script가 자동으로 만들어요 -->
+    <section class="pro-inner" id="pro">
+        <div class="pro-bg" id="proBg"></div>
+
+        <div class="pro-text">
+            <div class="pro-text-inner" id="proText">
+                <p class="pro-label">마녀공장의 이달의 상품</p>
+                <h3 class="pro-title" id="proTitle"></h3>
+                <p class="pro-desc" id="proDesc"></p>
+                <div class="pro-price">
+                    <span class="pro-badge" id="proBadge"></span>
+                    <span class="pro-sale" id="proSale"></span>
+                    <span class="pro-origin" id="proOrigin"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="pro-slider" id="proSlider">
+            <div class="pro-track" id="proTrack"></div>
+        </div>
+
+        <div class="pro-dots" id="proDots"></div>
+    </section>
+
+    <!-- 추천 제품: 카드는 아래 script의 recSets에서 만들어져요 -->
+    <section class="rec">
+        <div class="rec-inner">
+            <div class="rec-side">
+                <div class="rec-head">
+                    <h2><span style="font-weight: 450;">Recommender Products</span></h2>
+                    <h1><span style="font-weight: 590;">피부 고민에 꼭 맞는<br>맞춤형 제품 추천</span></h1>
+                </div>
+                <div class="rec-tabs" id="recTabs">
+                    <button type="button" class="rec-pill is-on">민감 피부 철벽 방어
+                        <svg viewBox="0 0 24 24"><path d="M3 12h17M14 6l6 6-6 6"/></svg></button>
+                    <button type="button" class="rec-pill">촉촉 수분 보습 장벽
+                        <svg viewBox="0 0 24 24"><path d="M3 12h17M14 6l6 6-6 6"/></svg></button>
+                    <button type="button" class="rec-pill">모공 쫀쫀 탄력 케어
+                        <svg viewBox="0 0 24 24"><path d="M3 12h17M14 6l6 6-6 6"/></svg></button>
+                </div>
+            </div>
+
+            <div class="rec-cards" id="recCards"></div>
+
+            <div class="rec-bar"><span id="recThumb"></span></div>
+        </div>
+    </section>
+
+    <!-- 영상 섹션: 화면에 보이면 자동 재생, 벗어나면 일시정지 (controls 없음) -->
+    <section class="vid">
+        <video id="vidPlayer" src="video/05.mp4" muted loop playsinline preload="auto"
+               disablepictureinpicture controlslist="nodownload noplaybackrate"></video>
+    </section>
+
+    <script>
+    (function () {
+        var v = document.getElementById("vidPlayer");
+
+        /* 섹션이 절반 이상 보이면 재생, 벗어나면 일시정지 */
+        var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) {
+                if (e.isIntersecting) {
+                    var p = v.play();
+                    if (p && p.catch) p.catch(function () {}); /* 재생이 막혀도 에러 없이 넘어감 */
+                } else {
+                    v.pause();
+                }
+            });
+        }, {threshold: 0.5});
+
+        io.observe(v);
+    })();
+    </script>
+
+    <script>
+    (function () {
+        /* 버튼 1, 2, 3을 눌렀을 때 보여줄 상품 3개씩. 이미지는 img에 경로를 적으면 들어가요 */
+        var recSets = [
+            [
+                {img: "", name: "퓨어 소이빈 클렌징 워터 500ml", desc: "닦을수록 더 산뜻한 저자극 클렌징 워터", discount: "20%", price: "22,500원", origin: "28,200원"},
+                {img: "", name: "알로에 수딩 젤 300ml", desc: "생 알로에즙으로 산뜻한 진정 케어 젤", discount: "20%", price: "20,000원", origin: "25,000원"},
+                {img: "", name: "비피다 앰플 약산성 젤 클렌저 400ml", desc: "피부 장벽을 위한 약산성 젤 타입 클렌저", discount: "20%", price: "18,400원", origin: "23,000원"}
+            ],
+            [
+                {img: "", name: "상품명 1 000ml", desc: "한 줄 설명이 들어가는 자리입니다", discount: "20%", price: "00,000원", origin: "00,000원"},
+                {img: "", name: "상품명 2 000ml", desc: "한 줄 설명이 들어가는 자리입니다", discount: "20%", price: "00,000원", origin: "00,000원"},
+                {img: "", name: "상품명 3 000ml", desc: "한 줄 설명이 들어가는 자리입니다", discount: "20%", price: "00,000원", origin: "00,000원"}
+            ],
+            [
+                {img: "", name: "상품명 4 000ml", desc: "한 줄 설명이 들어가는 자리입니다", discount: "20%", price: "00,000원", origin: "00,000원"},
+                {img: "", name: "상품명 5 000ml", desc: "한 줄 설명이 들어가는 자리입니다", discount: "20%", price: "00,000원", origin: "00,000원"},
+                {img: "", name: "상품명 6 000ml", desc: "한 줄 설명이 들어가는 자리입니다", discount: "20%", price: "00,000원", origin: "00,000원"}
+            ]
+        ];
+
+        var box = document.getElementById("recCards"),
+            thumb = document.getElementById("recThumb"),
+            pills = Array.prototype.slice.call(document.querySelectorAll("#recTabs .rec-pill")),
+            now = 0;
+
+        function render(k) {
+            box.innerHTML = recSets[k].map(function (it) {
+                return '<div class="card">' +
+                    '<div class="thumb">' + (it.img ? '<img src="' + it.img + '" alt="' + it.name + '">' : '') + '</div>' +
+                    '<div class="info"><h3 class="name">' + it.name + '</h3><p class="desc">' + it.desc + '</p></div>' +
+                    '<div class="price-area">' +
+                    '<span class="discount">' + it.discount + '</span>' +
+                    '<span class="price">' + it.price + '</span>' +
+                    '<span class="origin">' + it.origin + '</span>' +
+                    '<p class="review"><b>★</b> 4.9 | 리뷰 500건</p></div></div>';
+            }).join("");
+        }
+
+        pills.forEach(function (p, k) {
+            p.addEventListener("click", function () {
+                if (k === now) return;
+                now = k;
+                pills.forEach(function (q, j) { q.classList.toggle("is-on", j === k); });
+                thumb.style.transform = "translateX(" + (k * 100) + "%)"; /* 막대의 주황색 부분 이동 */
+                box.classList.add("is-out");
+                setTimeout(function () { render(k); box.classList.remove("is-out"); }, 300);
+            });
+        });
+
+        render(0);
+    })();
+    </script>
+
+    <!-- 푸터 -->
+    <footer class="ft">
+        <div class="ft-inner">
+            <a class="ft-logo" href="index.html"><img src="img/06_logo.png" alt="manyo"></a>
+
+            <div class="ft-info">
+                <p>(주)마녀공장</p>
+                <p></p>
+                <p>CEO : 김기현, 송지혜</p>
+                <p>주 소 : 서울특별시 강남구 테헤란로 124(역삼동) 삼원타워 4층</p>
+                <p><span>메 일 : manyofactory_cs@manyo.co.kr</span><span>고객센터 : 02-6013-0855</span><span>팩스번호 : 02-6280-0829</span></p>
+                <p><span>안전거래를 위해 (주)이니시스의 구매안전(에크로)에 가입하여 서비스를 제공하고있습니다.</span><a href="#">[가입확인]</a><span>개인정보보호책임자 : 문수현</span></p>
+                <p><span>사업자등록번호 : 108-86-00365</span><a href="#">[사업자번호조회]</a><span>통신판매업신고번호 : 2025-서울강남-05730 호</span></p>
+            </div>
+
+            <div class="ft-sns">
+                <a href="#" aria-label="인스타그램"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" aria-label="유튜브"><i class="fa-brands fa-youtube"></i></a>
+                <a href="#" aria-label="핀터레스트"><i class="fa-brands fa-pinterest"></i></a>
+                <a href="#" aria-label="카카오톡"><i class="fa-solid fa-comment"></i></a>
+                <a href="#" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="#" aria-label="틱톡"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+
+            <div class="ft-bottom">
+                <p class="ft-copy">copyright ⓒ manyofactory All Rights Reserved</p>
+                <nav class="ft-nav">
+                    <a href="#">개인정보처리방침</a>
+                    <a href="#">이용약관</a>
+                    <a href="#">제휴문의</a>
+                    <a href="#">고객센터</a>
+                    <a href="#">윤리경영</a>
+                    <a href="#">IR정보</a>
+                    <a href="#">채용 정보</a>
+                </nav>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    (function () {
+        /* ===== 1. 데이터: 상품을 늘리려면 여기에만 추가하세요 ===== */
+        var items = [
+            {
+                img: "img/04_1.jpg",      /* 카드 이미지 */
+                bg:  "img/04_bg1.jpg",    /* 배경 이미지 */
+                title: "글루타치온 7<br>다크스팟 세럼 30ml",
+                desc: "단 7일 만에 눈에 보이는 겉 흔적부터 숨어있는 속 흔적까지 케어하고<br>3단계 솔루션으로 흔적의 원인부터 케어하여 고순도 나노 글루타치온으로<br>미세 흔적까지 집중 타켓팅하는 마녀공장의 글루타치온7 다크스팟 세럼으로<br>피부 관리를 시작해보세요!",
+                badge: "20%", sale: "22,400원", origin: "28,000원"
+            },
+            {
+                img: "img/04_2.jpg",
+                bg:  "img/04_bg2.jpg",
+                title: "퓨어 소이빈<br>클렌징 오일 200ml",
+                desc: "두 번째 상품 설명이 들어가는 자리입니다.<br>줄바꿈은 br 태그로 조절하세요.",
+                badge: "20%", sale: "20,000원", origin: "25,000원"
+            },
+            {
+                img: "img/04_3.jpg",
+                bg:  "img/04_bg3.jpg",
+                title: "세 번째 상품명<br>50ml",
+                desc: "세 번째 상품 설명이 들어가는 자리입니다.",
+                badge: "10%", sale: "27,000원", origin: "30,000원"
+            }
+        ];
+
+        /* ===== 2. 카드·배경·점 만들기 ===== */
+        var $ = function (id) { return document.getElementById(id); };
+        var track = $("proTrack"), slider = $("proSlider"),
+            bg = $("proBg"), dots = $("proDots"), textBox = $("proText");
+        var fallback = ["#9d9a63", "#8a8f7a", "#a08f7e"]; /* 이미지 없을 때 대체색 */
+        var n = items.length;
+        var SETS = 3; /* 카드 묶음을 3번 이어 붙여서 앞뒤로 끝없이 이어지게 함 */
+
+        items.forEach(function (it, i) {
+            var b = document.createElement("div");
+            b.className = "pro-bg-item";
+            b.style.backgroundImage = "url(" + it.bg + ")";
+            b.style.backgroundColor = fallback[i % fallback.length];
+            bg.appendChild(b);
+
+            var d = document.createElement("button");
+            d.type = "button";
+            d.setAttribute("aria-label", (i + 1) + "번 상품");
+            d.onclick = function () { if (!busy) setPos(n + i, true); };
+            dots.appendChild(d);
+        });
+
+        for (var s = 0; s < SETS; s++) {
+            items.forEach(function (it, i) {
+                var card = document.createElement("div");
+                card.className = "pro-card";
+                card.setAttribute("data-i", i); /* 몇 번째 상품인지 기억 (복제본도 같은 번호) */
+                card.innerHTML =
+                    '<img src="' + it.img + '" alt="" onerror="this.style.display=\'none\'">' +
+                    '<div class="pro-card-btns">' +
+                    '<button type="button" aria-label="찜"><i class="fa-regular fa-heart"></i></button>' +
+                    '<button type="button" aria-label="장바구니"><i class="fa-solid fa-bag-shopping"></i></button>' +
+                    '</div>';
+                track.appendChild(card);
+            });
+        }
+
+        var cards = Array.prototype.slice.call(track.children),
+            bgs = Array.prototype.slice.call(bg.children),
+            dotEls = Array.prototype.slice.call(dots.children),
+            pos = n,      /* 전체 카드 중 현재 위치 (가운데 묶음의 첫 카드에서 시작) */
+            cur = -1,     /* 현재 상품 번호 (0 ~ n-1) */
+            busy = false, /* 이동 애니메이션 중인지 */
+            timer;
+
+        /* ===== 3. 이동 ===== */
+        function step() { /* 카드 한 칸 = 카드 너비 + 간격 */
+            return cards[0].offsetWidth + parseFloat(getComputedStyle(track).columnGap);
+        }
+
+        function updateUI(instant) {
+            /* 같은 번호의 카드는 복제본까지 모두 밝게 → 순간이동해도 깜빡임이 없음 */
+            cards.forEach(function (c) {
+                c.classList.toggle("is-active", +c.getAttribute("data-i") === cur);
+            });
+            bgs.forEach(function (c, k) { c.classList.toggle("is-on", k === cur); });
+            dotEls.forEach(function (c, k) { c.classList.toggle("is-on", k === cur); });
+
+            var it = items[cur];
+            function apply() {
+                $("proTitle").innerHTML = it.title;
+                $("proDesc").innerHTML = it.desc;
+                $("proBadge").textContent = it.badge;
+                $("proSale").textContent = it.sale;
+                $("proOrigin").textContent = it.origin;
+                textBox.classList.remove("is-out");
+            }
+            if (instant) { apply(); return; }
+            textBox.classList.add("is-out");
+            setTimeout(apply, 280);
+        }
+
+        function setPos(p, animate) {
+            pos = p;
+            var logical = ((p % n) + n) % n;
+            if (logical !== cur) {
+                var first = (cur === -1);
+                cur = logical;
+                updateUI(first);
+            }
+            if (animate) {
+                busy = true;
+                void track.offsetWidth; /* 직전 상태 확정 후 애니메이션 시작 */
+                track.classList.remove("no-ease");
+                clearTimeout(timer);
+                timer = setTimeout(finish, 800); /* transitionend 안전장치 */
+            } else {
+                track.classList.add("no-ease");
+            }
+            track.style.transform = "translateX(" + (-pos * step()) + "px)";
+        }
+
+        /* 이동이 끝났을 때, 양끝 복제본 위에 있으면 가운데 묶음의 같은 카드로 몰래 순간이동 */
+        function finish() {
+            busy = false;
+            if (pos < n || pos >= 2 * n) {
+                pos = (((pos % n) + n) % n) + n;
+                track.classList.add("no-ease");
+                track.style.transform = "translateX(" + (-pos * step()) + "px)";
+            }
+        }
+
+        track.addEventListener("transitionend", function (e) {
+            if (e.target === track && e.propertyName === "transform") finish();
+        });
+
+        /* ===== 4. 드래그 + 클릭 ===== */
+        var startX = 0, dx = 0, down = false, moved = false;
+
+        slider.addEventListener("pointerdown", function (e) {
+            if (busy) return; /* 이동 중엔 입력 무시 */
+            down = true; moved = false; startX = e.clientX; dx = 0;
+            slider.setPointerCapture(e.pointerId);
+            slider.classList.add("is-drag");
+            track.classList.add("no-ease");
+        });
+
+        slider.addEventListener("pointermove", function (e) {
+            if (!down) return;
+            dx = e.clientX - startX;
+            if (Math.abs(dx) > 5) moved = true;
+            track.style.transform = "translateX(" + (-pos * step() + dx) + "px)";
+        });
+
+        slider.addEventListener("pointerup", function (e) {
+            if (!down) return;
+            down = false;
+            slider.classList.remove("is-drag");
+
+            if (moved) { /* 40px 넘게 당기면 다음/이전 카드로 (마지막 → 첫 번째로 이어짐) */
+                if (dx < -40) setPos(pos + 1, true);
+                else if (dx > 40) setPos(pos - 1, true);
+                else setPos(pos, true);
+            } else { /* 그냥 클릭하면 클릭한 카드를 1번 자리로 */
+                var k = cards.indexOf(e.target.closest(".pro-card"));
+                setPos(k > -1 ? k : pos, true);
+            }
+        });
+
+        slider.addEventListener("pointercancel", function () { down = false; setPos(pos, true); });
+        window.addEventListener("resize", function () { setPos(pos, false); });
+
+        setPos(n, false);
+    })();
+    </script>
+</body>
+</html>
