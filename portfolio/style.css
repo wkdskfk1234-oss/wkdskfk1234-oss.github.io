@@ -1,0 +1,185 @@
+/* ================================================
+   0. 공통 설정
+   색상 변수(:root), 기본 글꼴, 링크, 웹폰트. 사이트 전체 색은 여기 --변수만 바꾸면 됩니다.
+   ================================================ */
+:root{--bg:#282828;--ink:#f2f2f2;--mute:#a3a3a3;--line:#404040;--acc:#7f93ff;--card:#333333;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-behavior:smooth;scroll-padding-top:calc(81px + env(safe-area-inset-top,0px))}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:normal 16px/1.7 "GmarketSansMedium","Noto Sans KR",sans-serif}
+button,input,select,textarea{font-family:inherit}
+h1,h2,h3,b,strong{font-weight:normal}   /* 굵기 1종 폰트라 가짜 볼드가 생기지 않게 */
+a{color:inherit;text-decoration:none}
+a:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+@font-face{font-family:"GmarketSansMedium";src:url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff") format("woff");font-weight:normal;font-style:normal;font-display:swap}
+@font-face{font-family:"GmarketSansBold";src:url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff") format("woff");font-weight:normal;font-style:normal;font-display:swap}
+
+/* ================================================
+   1. NAV (상단 메뉴)  ※ 처음엔 숨김 → 첫 화면 모션이 끝나면 .show가 붙으며 나타남
+   ================================================ */
+nav{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:0 clamp(20px,6.45vw,124px);height:81px;background:#282828;color:#fff;font-family:"GmarketSansMedium","Noto Sans KR",sans-serif;
+transform:translateY(calc(-100% - env(safe-area-inset-top,0px)));opacity:0;visibility:hidden;
+transition:transform .7s cubic-bezier(.2,.7,.2,1),opacity .5s ease,visibility 0s linear .7s}
+nav.show{transform:none;opacity:1;visibility:visible;transition:transform .7s cubic-bezier(.2,.7,.2,1),opacity .5s ease,visibility 0s}
+@media (prefers-reduced-motion:reduce){nav,nav.show{transition:none}}
+.nav-brand{display:flex;align-items:center;gap:clamp(10px,1.04vw,20px);white-space:nowrap}
+.nav-brand b{font:normal clamp(20px,1.875vw,36px)/1 "GmarketSansBold","Noto Sans KR",sans-serif;letter-spacing:-.01em}
+.nav-brand span{font-size:clamp(11px,.99vw,19px)}
+nav ul{display:flex;gap:clamp(16px,3.1vw,60px);list-style:none;margin:0;padding:0;font-size:clamp(12px,1.04vw,20px)}
+nav ul a:hover{color:var(--acc)}
+@media (max-width:900px){.nav-brand span{display:none}}
+@media (max-width:560px){nav{height:81px;padding:0 20px;flex-wrap:wrap;align-content:center;row-gap:8px}nav ul{gap:16px}}
+
+/* ================================================
+   2. HERO (첫 화면 큰 이미지)
+   이미지는 assets 폴더의 hero-a.jpg(처음 화면), hero-b.jpg(모션 후 화면)입니다.
+   ================================================ */
+.hero{position:relative;background:#282828}
+.hero-stage{position:relative;overflow:hidden;height:100vh;height:100dvh;min-height:360px;background:#1f3bbf center/cover no-repeat}   /* 화면 꽉 차게 */
+.hero-band{position:absolute;left:0;right:0;bottom:0;z-index:2;height:20px;background:#282828;transform:translateY(100%);transition:transform .7s cubic-bezier(.2,.7,.2,1)}   /* 네비와 함께 아래에서 올라옴 */
+.intro-done .hero-band{transform:none}
+.hero-a,.hero-b{position:absolute;inset:0;background-position:center;background-size:cover;background-repeat:no-repeat}
+.hero-a{background-image:inherit;transform:scale(1.1);animation:herozoom 2.6s linear forwards}
+.hero-b{opacity:0;animation:herofade 1.6s ease 2.2s forwards}
+/* 쫀득한 스프링: 원래 크기를 살짝 지나쳤다가(0.985) 통통 튕겨 돌아와 안착 */
+@keyframes herozoom{
+0%{transform:scale(1.1);filter:blur(16px) brightness(1.08) saturate(.85);animation-timing-function:cubic-bezier(.45,0,.25,1)}
+52%{transform:scale(.985);filter:blur(0) brightness(1) saturate(1);animation-timing-function:cubic-bezier(.3,0,.3,1)}
+72%{transform:scale(1.006);animation-timing-function:cubic-bezier(.3,0,.3,1)}
+88%{transform:scale(.999);animation-timing-function:ease-out}
+100%{transform:scale(1)}}
+@keyframes herofade{from{opacity:0}to{opacity:1}}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (prefers-reduced-motion:reduce){.hero-a{display:none}.hero-b{opacity:1;animation:none}}
+
+/* ================================================
+   3. 섹션 공통 (여백 · 제목)
+   ================================================ */
+section{padding:12vh 5vw}
+h2{font:normal clamp(22px,2.6vw,30px)/1 "GmarketSansMedium","Noto Sans KR",sans-serif;letter-spacing:-.01em;margin:0 0 5vh;padding-bottom:16px;border-bottom:1px solid var(--ink)}
+
+/* ================================================
+   4. SKILLS (흰 배경 섹션)
+   ================================================ */
+.skills{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:20px}
+.skill{background:var(--card);padding:28px 22px;border-radius:6px}
+.skill h3{margin:0 0 6px;font-size:17px}
+#skills{padding-top:calc(17vh + 47px);background:#fff;--ink:#17171a;--mute:#6b6b73;--line:#e4e4e8;--acc:#2f4bff;--card:#f3f3f6}
+.blank{aspect-ratio:16/9}
+.stars{color:var(--acc);letter-spacing:.2em;font-size:14px}
+.stars i{font-style:normal;color:var(--line)}
+
+/* ================================================
+   5. PROJECT (카드 9개(3x3)씩 3페이지 슬라이더)
+   .pview=보이는 창 / .ptrack=페이지가 가로로 이어진 띠 / .ppage=한 페이지 / .grid=카드 3칸
+   ================================================ */
+.pview{overflow:hidden;overflow:clip visible;touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:grab}
+.pview.drag{cursor:grabbing}
+.pview img{-webkit-user-drag:none}
+.ptrack{display:flex;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.pview.drag .ptrack{transition:none}
+.ppage{flex:0 0 100%;min-width:0}
+@media (prefers-reduced-motion:reduce){.ptrack{transition:none}}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media (max-width:560px){.grid{grid-template-columns:repeat(2,1fr)}}
+
+/* ================================================
+   5-1. 프로젝트 카드 (마우스를 올리면 제목이 보이는 오버레이)
+   ================================================ */
+.card{display:block;width:100%;text-align:left;background:none;border:0;padding:0;color:inherit;font:inherit;cursor:pointer}
+.thumb{aspect-ratio:4/3;overflow:hidden;transition:transform .25s}
+.thumb img{display:block;width:100%;height:100%;object-fit:cover}
+.card{position:relative;overflow:hidden}
+.card .ov{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;padding:20px;text-align:center;background:rgba(10,10,14,.62);color:#fff;opacity:0;transition:opacity .25s}
+.card:hover .ov,.card:focus-visible .ov{opacity:1}
+.card:focus-visible{outline:2px solid var(--acc);outline-offset:-4px}
+.grid{isolation:isolate}
+.cell{position:relative}
+#project{overflow:clip}
+/* 카드 등장: 초점이 천천히 맞춰지며 은은하게 떠오르는 페이드 (JS가 순서를 섞어 하나씩 .in .pop 부여) */
+.card.rise{opacity:0;pointer-events:none}
+.cell.in .card.rise{opacity:1;pointer-events:auto}
+.cell.pop .card.rise{animation:soft 1.5s cubic-bezier(.22,1,.36,1) var(--d,0s) backwards}
+@keyframes soft{from{opacity:0;transform:scale(1.04);filter:blur(12px)}to{opacity:1;transform:scale(1);filter:blur(0)}}
+@media (prefers-reduced-motion:reduce){.card.rise{opacity:1;pointer-events:auto}.cell.pop .card.rise{animation:none}}
+.card .ov h3{margin:0;font-size:18px}
+.card .ov small{color:rgba(255,255,255,.82)}
+@media (hover:none){.card .ov{opacity:1;justify-content:flex-end;align-items:flex-start;text-align:left;background:linear-gradient(transparent 45%,rgba(10,10,14,.7))}}
+.card h3{margin:14px 0 2px;font-size:17px}
+.card small{color:var(--mute)}
+
+/* ================================================
+   6. 프로젝트 상세 팝업 (카드를 누르면 열리는 창)
+   ================================================ */
+dialog{width:min(1280px,94vw,calc(90vh*16/9));aspect-ratio:16/9;max-height:90vh;padding:0;border:0;border-radius:0;background:var(--bg);color:var(--ink);overflow:auto}
+dialog::backdrop{background:rgba(0,0,0,.6)}
+.dhead{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 20px;background:var(--bg);border-bottom:1px solid var(--line)}
+.dhead h3{margin:0;font-size:18px}.dhead small{color:var(--mute)}
+.dbtn{border:1px solid var(--line);background:none;color:inherit;border-radius:0;padding:6px 12px;font:inherit;cursor:pointer}
+.dbtn:hover{border-color:var(--acc)}.dbtn:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+@media (max-width:700px){dialog{width:94vw;aspect-ratio:auto;height:90vh}}
+.dimgs{display:grid;gap:12px;padding:20px}.dimgs img{width:100%;display:block}
+body:has(dialog[open]){overflow:hidden}
+
+/* ================================================
+   7. CONTACT
+   ================================================ */
+.contact p{margin:0 0 28px;font-size:clamp(20px,4vw,36px);font-weight:normal;overflow-wrap:anywhere}
+.contact span{display:block;font:normal 13px "GmarketSansMedium","Noto Sans KR",sans-serif;color:var(--mute);margin-bottom:2px}
+
+/* ================================================
+   8. VIDEO (영상 슬라이더)
+   점 표시(.vbar/.dg)는 PROJECT 슬라이더와 같이 씁니다.
+   ================================================ */
+.vwrap{position:relative}   /* 좌우 여백 없음 = PROJECT 카드 영역과 같은 너비 */
+.vview{overflow:hidden}
+.vtrack{display:flex;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.vpage{flex:0 0 100%;aspect-ratio:16/9;position:relative}
+.vpage.short{display:flex;justify-content:space-between}
+.vitem{position:relative;overflow:hidden;background:#111}
+.vpage:not(.short) .vitem{position:absolute;inset:0}
+.vpage.short .vitem{flex:0 0 31.640625%;aspect-ratio:9/16}
+.vitem iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+/* 영상 첫 화면(표지 이미지): 클릭하면 재생 */
+.vposter{position:absolute;inset:0;width:100%;height:100%;padding:0;border:0;background:#111;cursor:pointer;display:block;overflow:hidden}
+.vposter img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.2,.7,.2,1),filter .3s}
+.vposter:hover img{transform:scale(1.03)}
+@media (hover:hover){.vposter{cursor:none}}   /* 표지 위에서는 기본 커서 숨김 */
+#vCursor{position:fixed;left:0;top:0;z-index:30;pointer-events:none}
+#vCursor i{position:absolute;left:-32.5px;top:-32.5px;width:65px;height:65px;border-radius:50%;background:#fff;transform:scale(0);transition:transform .35s cubic-bezier(.22,1,.36,1)}
+#vCursor i::after{content:"";position:absolute;left:50%;top:50%;transform:translate(-36%,-50%);border-left:18px solid #111;border-top:11px solid transparent;border-bottom:11px solid transparent}
+#vCursor.on i{transform:scale(1)}
+.vposter:focus-visible{outline:2px solid var(--acc);outline-offset:-4px}
+.vslot{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:#8a8a8a;font-size:13px;letter-spacing:.06em;background:linear-gradient(160deg,#2f2f33,#1b1b1e)}
+.vslot i{width:46px;height:32px;border-radius:0;background:#3a3a3f;position:relative}
+.vslot i::after{content:"";position:absolute;left:18px;top:9px;border-left:13px solid #8a8a8a;border-top:7px solid transparent;border-bottom:7px solid transparent}
+.varrow{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:26px;line-height:1;padding:0 0 3px;cursor:pointer;display:grid;place-items:center}
+/* 화살표는 섹션 좌우 여백(5vw)의 한가운데에 배치 */
+#vPrev{left:calc(-2.5vw - 20px)}#vNext{right:calc(-2.5vw - 20px)}
+.varrow:hover:not(:disabled){border-color:var(--acc);color:var(--acc)}
+.varrow:disabled{opacity:.3;cursor:default}
+.varrow:focus-visible,.dg button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.vbar{display:flex;justify-content:center;align-items:center;gap:18px;margin-top:18px}
+.dg{display:flex;gap:8px}
+.dsep{width:1px;height:14px;background:var(--line)}
+.dg button{width:10px;height:10px;border-radius:50%;border:0;padding:0;background:var(--line);cursor:pointer}
+.dg button.on{background:var(--acc)}
+/* 여백이 좁은 화면(900px 이하)에서는 영상 위 안쪽에 겹쳐서 표시 */
+@media (max-width:900px){.varrow{width:38px;height:38px;background:rgba(40,40,40,.75)}#vPrev{left:6px}#vNext{right:6px}}
+@media (prefers-reduced-motion:reduce){.vtrack{transition:none}}
+
+/* ================================================
+   9. FOOTER
+   ================================================ */
+footer{padding:28px 5vw;border-top:1px solid var(--line);color:var(--mute);font-size:13px}
+
+/* ================================================
+   10. 모션 줄이기 설정 (접근성)
+   ================================================ */
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.thumb{transition:none}}
+
+/* ================================================
+   HERO 이미지 파일 경로 (이미지를 바꾸려면 assets 폴더의 파일을 교체하거나 주소를 수정하세요)
+   ================================================ */
+.hero-stage{background-image:url(assets/hero-a.jpg)}
+.hero-b{background-image:url(assets/hero-b.jpg)}
